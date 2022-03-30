@@ -1,7 +1,7 @@
 version: '3.8'
 services:
 
-  workoutly-api:
+  api:
     build: 
       context: ./
       target: workoutly-api
@@ -12,10 +12,10 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - workoutly-db
+      - db
 
-  workoutly-db:
-    image: mongo
+  db:
+    image: mongo:4.4
     container_name: workoutly-db
     environment:
       - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
