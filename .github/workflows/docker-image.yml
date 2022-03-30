@@ -22,4 +22,4 @@ jobs:
       run: docker build . --file Dockerfile --tag workoutly-api:$(date +%s)
       
     - name: Docker push
-      run: docker push ${{secrets.DOCKER_USER}}/jdes01
+      run: docker push ${{secrets.DOCKER_USER}}/workoutly-api
