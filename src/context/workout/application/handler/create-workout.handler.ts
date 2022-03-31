@@ -5,6 +5,9 @@ import { Workout } from '../../domain/entity/workout';
 import { WorkoutRepository } from '../../infrastructure/persistance/workout.repository';
 import { Inject } from '@nestjs/common';
 import { WorkoutRepositoryInterface } from '../../domain/repository/workoutRepository.interface';
+import { WorkoutId } from '../../domain/entity/workout-id';
+import { WorkoutName } from '../../domain/entity/workout-name';
+import { WorkoutDescription } from '../../domain/entity/workout-description';
 
 @CommandHandler(CreateWorkoutCommand)
 export class CreateWorkoutHandler
@@ -15,9 +18,23 @@ export class CreateWorkoutHandler
     private workoutRepository: WorkoutRepositoryInterface,
   ) {}
 
-  async execute(createWorkoutCommand: CreateWorkoutCommand): Promise<string> {
-    const workout = new Workout(createWorkoutCommand._name);
+  async execute(createWorkoutCommand: CreateWorkoutCommand): Promise<void> {
+    try {
+      const workoutId = new WorkoutId(createWorkoutCommand._id);
+      const workoutName = new WorkoutName(createWorkoutCommand._name);
+      const workoutDescription = new WorkoutDescription(
+        createWorkoutCommand._description,
+      );
 
-    return await this.workoutRepository.saveWorkout(workout);
+      const workout = Workout.create(
+        workoutId,
+        workoutName,
+        workoutDescription,
+      );
+
+      await this.workoutRepository.saveWorkout(workout);
+    } catch (error) {
+      return error.message;
+    }
   }
 }

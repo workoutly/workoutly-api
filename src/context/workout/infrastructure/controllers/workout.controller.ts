@@ -1,4 +1,4 @@
-import { Controller, Post, Param } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateWorkoutCommand } from '../../application/commands/create-workout.command';
 
@@ -6,11 +6,19 @@ import { CreateWorkoutCommand } from '../../application/commands/create-workout.
 export class WorkoutController {
   constructor(private commandBus: CommandBus) {}
 
-  @Post(':workout')
-  async createWorkout(@Param('workout') workout: string): Promise<string> {
-    const createWorkoutCommand = new CreateWorkoutCommand(workout);
+  @Post()
+  async createWorkout(
+    @Body('id') id: string,
+    @Body('name') name: string,
+    @Body('description') description: string,
+  ): Promise<void> {
+    const createWorkoutCommand = new CreateWorkoutCommand(
+      id,
+      name,
+      description,
+    );
 
-    return await this.commandBus.execute<CreateWorkoutCommand, string>(
+    return await this.commandBus.execute<CreateWorkoutCommand, void>(
       createWorkoutCommand,
     );
   }

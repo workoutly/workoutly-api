@@ -11,12 +11,12 @@ export class WorkoutRepository implements WorkoutRepositoryInterface {
 
     await client.connect();
 
-    await client
-      .db('workoutly')
-      .collection('workout')
-      .insertOne({ user: workout.name });
+    await client.db('workoutly').collection('workout').insertOne({
+      id: workout.id,
+      name: workout.name,
+      description: workout.description,
+    });
 
     await client.close();
-    return workout.name;
   }
 }
