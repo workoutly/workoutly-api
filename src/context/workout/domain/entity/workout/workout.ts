@@ -1,3 +1,4 @@
+import { Muscle } from '../muscle/muscle';
 import { WorkoutDescription } from './workout-description';
 import { WorkoutId } from './workout-id';
 import { WorkoutName } from './workout-name';
@@ -6,6 +7,7 @@ export class Workout {
   private _id: WorkoutId;
   private _name: WorkoutName;
   private _description: WorkoutDescription;
+  private _muscles: Muscle[] = [];
 
   private constructor(
     id: WorkoutId,
@@ -36,5 +38,13 @@ export class Workout {
 
   public get description(): string {
     return this._description.value;
+  }
+
+  public addMuscle(muscle: Muscle): void {
+    this._muscles.push(muscle);
+  }
+
+  public get muscles(): Muscle[] {
+    return this._muscles;
   }
 }

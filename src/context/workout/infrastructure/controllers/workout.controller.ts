@@ -11,11 +11,13 @@ export class WorkoutController {
     @Body('id') id: string,
     @Body('name') name: string,
     @Body('description') description: string,
+    @Body('muscles') muscles: string[], // receives ["bicep","chest"] when posting '{"muscles":["bicep","chest"]}'
   ): Promise<void> {
     const createWorkoutCommand = new CreateWorkoutCommand(
       id,
       name,
       description,
+      muscles,
     );
 
     return await this.commandBus.execute<CreateWorkoutCommand, void>(

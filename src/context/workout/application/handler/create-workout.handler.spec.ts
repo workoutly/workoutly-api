@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto';
 import { CreateWorkoutCommand } from '../../application/commands/create-workout.command';
-import { Workout } from '../../domain/entity/workout';
-import { WorkoutDescription } from '../../domain/entity/workout-description';
-import { WorkoutId } from '../../domain/entity/workout-id';
-import { WorkoutName } from '../../domain/entity/workout-name';
+import { Workout } from '../../domain/entity/workout/workout';
+import { WorkoutDescription } from '../../domain/entity/workout/workout-description';
+import { WorkoutId } from '../../domain/entity/workout/workout-id';
+import { WorkoutName } from '../../domain/entity/workout/workout-name';
 import { WorkoutRepositoryInterface } from '../../domain/repository/workoutRepository.interface';
 import { CreateWorkoutHandler } from './create-workout.handler';
 
