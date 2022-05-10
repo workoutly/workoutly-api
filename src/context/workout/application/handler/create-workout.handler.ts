@@ -9,6 +9,7 @@ import { WorkoutId } from '../../domain/entity/workout/workout-id';
 import { WorkoutName } from '../../domain/entity/workout/workout-name';
 import { WorkoutDescription } from '../../domain/entity/workout/workout-description';
 import { Muscle } from '../../domain/entity/muscle/muscle';
+import { WorkoutSetting } from '../../domain/entity/workout/workout-setting';
 
 @CommandHandler(CreateWorkoutCommand)
 export class CreateWorkoutHandler
@@ -33,9 +34,17 @@ export class CreateWorkoutHandler
         workoutDescription,
       );
 
-      createWorkoutCommand._muscles.forEach((muscleName) => {
-        const muscle = new Muscle(muscleName);
+      createWorkoutCommand._muscles.forEach((muscleDTO) => {
+        const muscle = new Muscle(muscleDTO.name);
         workout.addMuscle(muscle);
+      });
+
+      createWorkoutCommand._settings.forEach((workoutSettingDTO) => {
+        const workoutSetting = new WorkoutSetting(
+          workoutSettingDTO.name,
+          workoutSettingDTO.value,
+        );
+        workout.addSetting(workoutSetting);
       });
 
       await this.workoutRepository.saveWorkout(workout);

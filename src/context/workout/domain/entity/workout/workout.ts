@@ -2,12 +2,14 @@ import { Muscle } from '../muscle/muscle';
 import { WorkoutDescription } from './workout-description';
 import { WorkoutId } from './workout-id';
 import { WorkoutName } from './workout-name';
+import { WorkoutSetting } from './workout-setting';
 
 export class Workout {
   private _id: WorkoutId;
   private _name: WorkoutName;
   private _description: WorkoutDescription;
   private _muscles: Muscle[] = [];
+  private _settings: WorkoutSetting[] = [];
 
   private constructor(
     id: WorkoutId,
@@ -46,5 +48,13 @@ export class Workout {
 
   public get muscles(): Muscle[] {
     return this._muscles;
+  }
+
+  public addSetting(setting: WorkoutSetting): void {
+    this._settings.push(setting);
+  }
+
+  public get settings(): WorkoutSetting[] {
+    return this._settings;
   }
 }

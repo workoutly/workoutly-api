@@ -1,6 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateWorkoutCommand } from '../../application/commands/create-workout.command';
+import { CreateWorkoutDTO } from '@workoutly/contracts/workout/createWorkout.DTO';
 
 @Controller('workout')
 export class WorkoutController {
@@ -8,20 +9,38 @@ export class WorkoutController {
 
   @Post()
   async createWorkout(
-    @Body('id') id: string,
-    @Body('name') name: string,
-    @Body('description') description: string,
-    @Body('muscles') muscles: string[], // receives ["bicep","chest"] when posting '{"muscles":["bicep","chest"]}'
+    @Body('workout') createWorkoutDTO: CreateWorkoutDTO,
   ): Promise<void> {
     const createWorkoutCommand = new CreateWorkoutCommand(
-      id,
-      name,
-      description,
-      muscles,
+      createWorkoutDTO.id,
+      createWorkoutDTO.name,
+      createWorkoutDTO.description,
+      createWorkoutDTO.muscles,
+      createWorkoutDTO.settings,
     );
 
     return await this.commandBus.execute<CreateWorkoutCommand, void>(
       createWorkoutCommand,
     );
   }
+
+  //{
+  //  "workout": {
+  //      "id": "59ef00ac-534d-49d1-8420-fc692e3b13f9",
+  //      "name": "ejerciciodejosele",
+  //      "description": "aaaaaaa",
+  //      "muscles": [
+  //          {"name": "bicep"}
+  //      ],
+  //      "settings": [
+  //          {
+  //              "name": "km",
+  //              "value": "10"
+  //          },
+  //          {
+  //              "name": "reps",
+  //              "value": "3"
+  //          }
+  //      ]
+  //  }
 }
