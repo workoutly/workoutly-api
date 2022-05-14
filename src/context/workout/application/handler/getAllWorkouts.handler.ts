@@ -17,6 +17,7 @@ export class GetAllWorkoutsHandler
   async execute(): Promise<WorkoutDTO[]> {
     try {
       const allWorkouts = this.workoutRepository.getAllWorkouts();
+
       return allWorkouts;
     } catch (error) {
       return error.message;

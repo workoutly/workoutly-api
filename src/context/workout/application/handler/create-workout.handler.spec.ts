@@ -1,16 +1,17 @@
 import { randomUUID } from 'crypto';
 import { CreateWorkoutCommand } from '../../application/commands/create-workout.command';
 import { Workout } from '../../domain/entity/workout/workout';
-import { WorkoutDescription } from '../../domain/entity/workout/workout-description';
-import { WorkoutId } from '../../domain/entity/workout/workout-id';
-import { WorkoutName } from '../../domain/entity/workout/workout-name';
 import { WorkoutRepositoryInterface } from '../../domain/repository/workoutRepository.interface';
 import { CreateWorkoutHandler } from './create-workout.handler';
 
 class WorkoutMockRepository implements WorkoutRepositoryInterface {
   readonly mockSave = jest.fn((workout) => workout._name);
+  readonly mockGet = jest.fn();
   async saveWorkout(workout: Workout): Promise<void> {
     return this.mockSave(workout);
+  }
+  async getAllWorkouts(): Promise<Workout[]> {
+    return this.mockGet();
   }
 }
 
@@ -20,11 +21,6 @@ describe('WorkoutHandler', () => {
     const handler = new CreateWorkoutHandler(repository);
 
     const randomId = randomUUID().toString();
-
-    const workoutId = new WorkoutId(randomId);
-    const workoutName = new WorkoutName('workoutName');
-    const workoutDescription = new WorkoutDescription('workoutDescription');
-    const workout = Workout.create(workoutId, workoutName, workoutDescription);
 
     const allMuscles = [{ name: 'bicep' }];
 
