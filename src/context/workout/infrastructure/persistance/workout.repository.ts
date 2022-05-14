@@ -30,4 +30,18 @@ export class WorkoutRepository implements WorkoutRepositoryInterface {
 
     await client.close();
   }
+
+  public async getAllWorkouts(): Promise<Workout[]> {
+    const uri = process.env.DB_URI;
+
+    const client = new MongoClient(uri);
+
+    await client.connect();
+
+    const allWorkouts = client.db('workoutly').collection('workout').find();
+
+    await client.close();
+
+    return allWorkouts;
+  }
 }

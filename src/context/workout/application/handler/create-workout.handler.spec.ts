@@ -26,32 +26,24 @@ describe('WorkoutHandler', () => {
     const workoutDescription = new WorkoutDescription('workoutDescription');
     const workout = Workout.create(workoutId, workoutName, workoutDescription);
 
+    const allMuscles = [{ name: 'bicep' }];
+
+    const allWorkoutSettings = [
+      { name: 'kms', value: '8' },
+      { name: 'sets', value: '3' },
+    ];
+
     const command = new CreateWorkoutCommand(
       randomId,
       'workoutName',
       'workoutDescription',
+      allMuscles,
+      allWorkoutSettings,
     );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const returnedValue = await handler.execute(command);
 
-    expect(repository.mockSave).toHaveBeenLastCalledWith(workout);
-  });
-
-  it('should return workout name', async () => {
-    const repository = new WorkoutMockRepository();
-    const handler = new CreateWorkoutHandler(repository);
-
-    const randomId = randomUUID().toString();
-
-    const command = new CreateWorkoutCommand(
-      randomId,
-      'workoutName',
-      'workoutDescription',
-    );
-
-    const returnedValue = await handler.execute(command);
-
-    expect(returnedValue).toBe(undefined);
+    expect(repository.mockSave).toBeCalledTimes(1);
   });
 });

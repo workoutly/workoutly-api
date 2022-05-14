@@ -1,15 +1,16 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { CommandBus } from '@nestjs/cqrs';
+import { Controller, Post, Body, Get } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateWorkoutCommand } from '../../application/commands/create-workout.command';
-import { CreateWorkoutDTO } from '@workoutly/contracts/workout/createWorkout.DTO';
+import { WorkoutDTO } from '@workoutly/contracts/workout/createWorkout.DTO';
+import { GetAllWorkoutsQuery } from '../../application/queries/getAllWorkouts.query';
 
 @Controller('workout')
 export class WorkoutController {
-  constructor(private commandBus: CommandBus) {}
+  constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
   @Post()
   async createWorkout(
-    @Body('workout') createWorkoutDTO: CreateWorkoutDTO,
+    @Body('workout') createWorkoutDTO: WorkoutDTO,
   ): Promise<void> {
     const createWorkoutCommand = new CreateWorkoutCommand(
       createWorkoutDTO.id,
@@ -43,4 +44,13 @@ export class WorkoutController {
   //          }
   //      ]
   //  }
+
+  @Get()
+  async getAllWorkouts(): Promise<WorkoutDTO[]> {
+    const getAllWorkoutsQuery = new GetAllWorkoutsQuery();
+
+    return await this.queryBus.execute<GetAllWorkoutsQuery, WorkoutDTO[]>(
+      getAllWorkoutsQuery,
+    );
+  }
 }

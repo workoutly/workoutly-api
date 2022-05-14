@@ -14,6 +14,7 @@ describe('WorkoutController', () => {
     }).compile();
 
     controller = module.get<WorkoutController>(WorkoutController);
+    await module.init();
   });
 
   it('should be defined', () => {
