@@ -25,26 +25,6 @@ export class WorkoutController {
     );
   }
 
-  //{
-  //  "workout": {
-  //      "id": "59ef00ac-534d-49d1-8420-fc692e3b13f9",
-  //      "name": "ejerciciodejosele",
-  //      "description": "aaaaaaa",
-  //      "muscles": [
-  //          {"name": "bicep"}
-  //      ],
-  //      "settings": [
-  //          {
-  //              "name": "km",
-  //              "value": "10"
-  //          },
-  //          {
-  //              "name": "reps",
-  //              "value": "3"
-  //          }
-  //      ]
-  //  }
-
   @Get('workouts')
   async getAllWorkouts(): Promise<WorkoutDTO[]> {
     const getAllWorkoutsQuery = new GetAllWorkoutsQuery();
