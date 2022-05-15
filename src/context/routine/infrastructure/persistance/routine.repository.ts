@@ -77,17 +77,17 @@ export class RoutineRepository implements RoutineRepositoryInterface {
 
         routineDocument.workouts.map((workout) => {
           const w = Workout.create(
-            workout._id,
-            workout._name,
-            workout._description,
+            workout.id,
+            workout.name,
+            workout.description,
           );
 
-          workout._muscles.map((muscle) => {
+          workout.muscles.map((muscle) => {
             w.addMuscle(muscle);
           });
 
-          workout._settings.map((setting) => {
-            const s = new WorkoutSetting(setting._name, setting._value);
+          workout.settings.map((setting) => {
+            const s = new WorkoutSetting(setting.name, setting.value);
             w.addSetting(s);
           });
           r.addWorkout(workout);
