@@ -4,6 +4,9 @@ import { RoutineRepositoryInterface } from '../../domain/repository/routineRepos
 import { Routine } from '../../domain/entity/routine/routine';
 import { Workout } from '../../domain/entity/workout/workout';
 import { WorkoutSetting } from '../../domain/entity/workout/workout-setting';
+import { WorkoutId } from '../../domain/entity/workout/workout-id';
+import { WorkoutName } from '../../domain/entity/workout/workout-name';
+import { WorkoutDescription } from '../../domain/entity/workout/workout-description';
 
 export class RoutineRepository implements RoutineRepositoryInterface {
   public async saveRoutine(routine: Routine) {
@@ -13,10 +16,36 @@ export class RoutineRepository implements RoutineRepositoryInterface {
 
     await client.connect();
 
+    const allWorkouts = [];
+
+    routine.workouts.forEach((workout) => {
+      const wId = { id: workout.id };
+      const wName = { name: workout.name };
+      const wDesc = { description: workout.description };
+
+      const allMusclesNames = workout.muscles.map((muscle) => ({
+        name: muscle.name,
+      }));
+
+      const allWorkoutSettings = workout.settings.map((setting) => ({
+        name: setting.name,
+        value: setting.value,
+      }));
+
+      const w = {
+        id: wId.id,
+        name: wName.name,
+        description: wDesc.description,
+        muscles: allMusclesNames,
+        settings: allWorkoutSettings,
+      };
+      allWorkouts.push(w);
+    });
+
     await client.db('workoutly').collection('routine').insertOne({
       id: routine.id,
       name: routine.name,
-      workouts: routine.workouts,
+      workouts: allWorkouts,
     });
 
     await client.close();
