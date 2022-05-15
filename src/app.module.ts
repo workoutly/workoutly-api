@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { WorkoutModule } from './context/workout/workout.module';
+import { WorkoutModule } from './context/routine/routine.module';
 
 @Module({
   imports: [CqrsModule, WorkoutModule],

@@ -4,11 +4,11 @@ import { CreateWorkoutCommand } from '../../application/commands/create-workout.
 import { WorkoutDTO } from '@workoutly/contracts/workout/createWorkout.DTO';
 import { GetAllWorkoutsQuery } from '../../application/queries/getAllWorkouts.query';
 
-@Controller('workout')
+@Controller()
 export class WorkoutController {
   constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
-  @Post()
+  @Post('workout')
   async createWorkout(
     @Body('workout') createWorkoutDTO: WorkoutDTO,
   ): Promise<void> {
@@ -45,7 +45,7 @@ export class WorkoutController {
   //      ]
   //  }
 
-  @Get()
+  @Get('workouts')
   async getAllWorkouts(): Promise<WorkoutDTO[]> {
     const getAllWorkoutsQuery = new GetAllWorkoutsQuery();
 

@@ -2,13 +2,14 @@ import { Controller, Post, Body, Get } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { RoutineDTO } from '@workoutly/contracts/workout/createRoutine.DTO';
 import { CreateRoutineCommand } from '../../application/commands/create-routine.command';
+import { GetAllRoutinesQuery } from '../../application/queries/getAllRoutinesQuery';
 
-@Controller('routine')
+@Controller()
 export class RoutineController {
   constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
-  @Post()
-  async createWorkout(
+  @Post('routine')
+  async createRoutine(
     @Body('routine') createRoutineDTO: RoutineDTO,
   ): Promise<void> {
     const createRoutineCommand = new CreateRoutineCommand(
@@ -22,12 +23,12 @@ export class RoutineController {
     );
   }
 
-  //@Get()
-  //async getAllWorkouts(): Promise<WorkoutDTO[]> {
-  //  const getAllWorkoutsQuery = new GetAllWorkoutsQuery();
-  //
-  //  return await this.queryBus.execute<GetAllWorkoutsQuery, WorkoutDTO[]>(
-  //    getAllWorkoutsQuery,
-  //  );
-  //}
+  @Get('routines')
+  async getAllRoutines(): Promise<RoutineDTO[]> {
+    const getAllRoutinesQuery = new GetAllRoutinesQuery();
+
+    return await this.queryBus.execute<GetAllRoutinesQuery, RoutineDTO[]>(
+      getAllRoutinesQuery,
+    );
+  }
 }

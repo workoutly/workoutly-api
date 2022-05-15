@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto';
-import { CreateWorkoutCommand } from '../../application/commands/create-workout.command';
+import { CreateWorkoutCommand } from '../commands/create-workout.command';
 import { Workout } from '../../domain/entity/workout/workout';
 import { WorkoutRepositoryInterface } from '../../domain/repository/workoutRepository.interface';
-import { CreateWorkoutHandler } from './create-workout.handler';
+import { CreateWorkoutHandler } from './createWorkout.handler';
 
 class WorkoutMockRepository implements WorkoutRepositoryInterface {
   readonly mockSave = jest.fn((workout) => workout._name);
